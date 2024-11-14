@@ -1,0 +1,13 @@
+.featured-article-parent {
+  display: flex;
+}
+
+.featured-article-child-0 {
+  flex: 0 0 70%;
+}
+
+.featured-article-child-1 {
+  flex: 0 0 25%;
+  text-align: center;
+  padding-left: 20px;
+}
