@@ -22,19 +22,18 @@ async function displayPopularArticles(data, path) {
     div.classList.add("card-container");
 
     const recArticlesDiv = document.querySelector(".recent-articles-query");
-    recArticlesDiv.innerHTML = "";
-    recArticlesDiv.appendChild(div);
-    const queryParams = parseQueryParamsFromString(path);
-    let { category = "" } = queryParams;
-    console.log("category", category);
-    data.forEach((el) => {
-        let { description, title, image, path } = el;
-        let pathCategory = path.split("/")[1];
-        console.log("path., ", pathCategory, pathCategory === category);
-        if (pathCategory === category) {
-            const div = document.createElement("div");
-            div.classList.add("article-card");
-            div.innerHTML = `  
+    if (recArticlesDiv) {
+        recArticlesDiv.innerHTML = "";
+        recArticlesDiv.appendChild(div);
+        const queryParams = parseQueryParamsFromString(path);
+        let { category = "" } = queryParams;
+        data.forEach((el) => {
+            let { description, title, image, path } = el;
+            let pathCategory = path.split("/")[1];
+            if (pathCategory === category) {
+                const div = document.createElement("div");
+                div.classList.add("article-card");
+                div.innerHTML = `  
             <picture>
                 <source media="(max-width:150px)" srcset="${image}">
                 <source media="(max-width:165px)" srcset="${image}">
@@ -47,9 +46,10 @@ async function displayPopularArticles(data, path) {
                 </p>
             </div>
         `;
-            document.querySelector(".card-container").appendChild(div);
-        }
-    });
+                document.querySelector(".card-container").appendChild(div);
+            }
+        });
+    }
 }
 
 export async function loadFragment(path, block) {
@@ -67,9 +67,11 @@ export async function loadFragment(path, block) {
 export default async function decorate(block) {
     const link = block.querySelector("a");
     const path = link ? link.getAttribute("href") : block.textContent.trim();
-    let fragment = await loadFragment(path);
     let articles = document.getElementsByClassName("recent-articles-query");
-    articles.innerHTML = "";
-    block.append(articles);
-    block.append(fragment);
+    if (articles) {
+        articles.innerHTML = "";
+        let fragment = await loadFragment(path);
+        block.append(articles);
+        block.append(fragment);
+    }
 }
