@@ -1,19 +1,40 @@
-import { decorateMain } from "../../scripts/scripts.js";
+function parseQueryParamsFromString(url) {
+    let queryString = "";
 
-import { loadSections } from "../../scripts/aem.js";
+    // Extract query string manually
+    if (url.includes("?")) {
+        queryString = url.split("?")[1].split("#")[0]; // Remove hash if present
+    }
 
-async function displayPopularArticles(data) {
+    // Parse using URLSearchParams
+    const params = new URLSearchParams(queryString);
+
+    // Convert to an object
+    const paramObj = {};
+    for (const [key, value] of params.entries()) {
+        paramObj[key] = value;
+    }
+
+    return paramObj;
+}
+async function displayPopularArticles(data, path) {
     const div = document.createElement("div");
     div.classList.add("card-container");
 
     const recArticlesDiv = document.querySelector(".recent-articles-query");
     recArticlesDiv.innerHTML = "";
     recArticlesDiv.appendChild(div);
+    const queryParams = parseQueryParamsFromString(path);
+    let { category = "" } = queryParams;
+    console.log("category", category);
     data.forEach((el) => {
-        let { description, title, image } = el;
-        const div = document.createElement("div");
-        div.classList.add("article-card");
-        div.innerHTML = `  
+        let { description, title, image, path } = el;
+        let pathCategory = path.split("/")[1];
+        console.log("path., ", pathCategory, pathCategory === category);
+        if (pathCategory === category) {
+            const div = document.createElement("div");
+            div.classList.add("article-card");
+            div.innerHTML = `  
             <picture>
                 <source media="(max-width:150px)" srcset="${image}">
                 <source media="(max-width:165px)" srcset="${image}">
@@ -26,8 +47,8 @@ async function displayPopularArticles(data) {
                 </p>
             </div>
         `;
-
-        document.querySelector(".card-container").appendChild(div);
+            document.querySelector(".card-container").appendChild(div);
+        }
     });
 }
 
@@ -37,7 +58,7 @@ export async function loadFragment(path, block) {
         if (resp.ok) {
             let { data } = await resp.json();
             if (data) {
-                return displayPopularArticles(data);
+                return displayPopularArticles(data, path);
             }
         }
     }
@@ -46,9 +67,9 @@ export async function loadFragment(path, block) {
 export default async function decorate(block) {
     const link = block.querySelector("a");
     const path = link ? link.getAttribute("href") : block.textContent.trim();
-    let fragment = loadFragment(path);
+    let fragment = await loadFragment(path);
     let articles = document.getElementsByClassName("recent-articles-query");
     articles.innerHTML = "";
     block.append(articles);
-    block.appendChild(fragment);
+    block.append(fragment);
 }
