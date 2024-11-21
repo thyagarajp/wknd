@@ -1,0 +1,50 @@
+.featured-article-parent {
+  display: inline-flex;
+  width: 100%;
+}
+
+.featured-article-child-0 {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-box-flex: 2;
+  display: flex;
+  flex: 2;
+  flex-direction: column;
+  /* height: 100%;   */
+  overflow: hidden; /* Optional: hides overflow if the image doesn't match the aspect ratio */
+
+  picture,
+  img {
+    height: 100%;
+    width: auto; /* Maintain the image's aspect ratio */
+    display: block; /* Remove any inline spacing */
+  }
+}
+
+.featured-article-child-1 {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-preferred-size: 100%;
+  -webkit-box-flex: 1;
+  background-color: #ebebeb;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 3.5em 2em 2em;
+
+  font-size: 14px;
+  h2 {
+    font-family: var(
+      --fontFamilySerif,
+      "Asar",
+      Georgia,
+      "Times New Roman",
+      Times,
+      serif
+    );
+    font-weight: 400;
+    margin: 0.5em 0;
+  }
+}

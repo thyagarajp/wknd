@@ -15,14 +15,16 @@
   --background-color: white;
   --light-color: #f8f8f8;
   --dark-color: #505050;
-  --text-color: #131313;
-  --link-color: #3b63fb;
+  --text-color: #202020;
+  --link-color: #ffea00;
   --link-hover-color: #1d3ecf;
+  --navLinkInverse: #ebebeb;
 
   /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif;
   --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
-
+  --fontFamilySansSerif: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  --body-font-family: var(--fontFamilySansSerif);
   /* body sizes */
   --body-font-size-m: 22px;
   --body-font-size-s: 19px;
@@ -38,19 +40,24 @@
 
   /* nav height */
   --nav-height: 64px;
+  --fontSizeSmall: 14px;
+  --brandPrimary: #ffea00;
+  --fontWeightBold: 600;
+  --buttonBorderRadius: 0;
+  --textColor: #202020;
 }
 
 /* fallback fonts */
 @font-face {
   font-family: roboto-condensed-fallback;
   size-adjust: 88.82%;
-  src: local('Arial');
+  src: local("Arial");
 }
 
 @font-face {
   font-family: roboto-fallback;
   size-adjust: 99.529%;
-  src: local('Arial');
+  src: local("Arial");
 }
 
 @media (width >= 900px) {
@@ -112,12 +119,27 @@ h6 {
   scroll-margin: 40px;
 }
 
-h1 { font-size: var(--heading-font-size-xxl); }
-h2 { font-size: var(--heading-font-size-xl); }
-h3 { font-size: var(--heading-font-size-l); }
-h4 { font-size: var(--heading-font-size-m); }
-h5 { font-size: var(--heading-font-size-s); }
-h6 { font-size: var(--heading-font-size-xs); }
+h1 {
+  font-size: var(--heading-font-size-xxl);
+}
+h2 {
+  font-size: var(--heading-font-size-xl);
+  content: "";
+  display: block;
+  padding-top: 8px;
+}
+h3 {
+  font-size: var(--heading-font-size-l);
+}
+h4 {
+  font-size: var(--heading-font-size-m);
+}
+h5 {
+  font-size: var(--heading-font-size-s);
+}
+h6 {
+  font-size: var(--heading-font-size-xs);
+}
 
 p,
 dl,
@@ -182,18 +204,27 @@ button {
   text-align: center;
   text-decoration: none;
   background-color: var(--link-color);
-  color: var(--background-color);
+  color: var(--text-color);
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  font-size: var(--font-size-small);
+  background-color: var(--brandPrimary);
+  border-radius: var(--buttonBorderRadius);
+  color: var(--textColor);
+  font-size: var(--fontSizeSmall);
+  font-weight: var(--fontWeightBold);
+  padding: 1em 2.5em;
+  text-transform: uppercase;
 }
 
 a.button:hover,
 a.button:focus,
 button:hover,
 button:focus {
-  background-color: var(--link-hover-color);
+  background-color: var(--brandPrimary);
   cursor: pointer;
 }
 
@@ -254,4 +285,16 @@ main .section.highlight {
   background-color: var(--light-color);
   margin: 0;
   padding: 40px 0;
+}
+
+.button-container a {
+  font-size: var(--font-size-small);
+  background-color: var(--brandPrimary);
+  border-radius: var(--buttonBorderRadius);
+  color: var(--textColor);
+  float: left;
+  font-size: var(--fontSizeSmall);
+  font-weight: var(--fontWeightBold);
+  padding: 1em 2.5em;
+  text-transform: uppercase;
 }

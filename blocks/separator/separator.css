@@ -1,0 +1,9 @@
+.separator {
+  margin-bottom: 4rem;
+  margin-top: 4rem;
+}
+.separator-row {
+  border-style: solid;
+  border-width: 1px;
+  color: #ebebeb;
+}
