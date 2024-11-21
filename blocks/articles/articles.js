@@ -17,14 +17,14 @@ function parseQueryParamsFromString(url) {
 
     return paramObj;
 }
-async function displayPopularArticles(data, path) {
+async function displayPopularArticles(data, path, block) {
     const div = document.createElement("div");
     div.classList.add("card-container");
 
-    const recArticlesDiv = document.querySelector(".recent-articles-query");
+    const recArticlesDiv = block.classList.contains("recent-articles-query");
     if (recArticlesDiv) {
-        recArticlesDiv.innerHTML = "";
-        recArticlesDiv.appendChild(div);
+        block.innerHTML = "";
+        block.appendChild(div);
         const queryParams = parseQueryParamsFromString(path);
         let { category = "" } = queryParams;
         data.forEach((el) => {
@@ -46,7 +46,7 @@ async function displayPopularArticles(data, path) {
                 </p>
             </div>
         `;
-                document.querySelector(".card-container").appendChild(div);
+                block.querySelector(".card-container").appendChild(div);
             }
         });
     }
@@ -58,20 +58,19 @@ export async function loadFragment(path, block) {
         if (resp.ok) {
             let { data } = await resp.json();
             if (data) {
-                return displayPopularArticles(data, path);
+                return displayPopularArticles(data, path, block);
             }
         }
     }
+    return;
 }
 
 export default async function decorate(block) {
     const link = block.querySelector("a");
     const path = link ? link.getAttribute("href") : block.textContent.trim();
-    let articles = document.getElementsByClassName("recent-articles-query");
+    const articles = block.classList.contains("recent-articles-query");
     if (articles) {
-        articles.innerHTML = "";
-        let fragment = await loadFragment(path);
-        block.append(articles);
-        block.append(fragment);
+        block.innerHTML = "";
+        let fragment = await loadFragment(path, block);
     }
 }
