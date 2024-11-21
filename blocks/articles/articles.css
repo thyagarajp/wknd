@@ -25,10 +25,10 @@
   flex-direction: unset;
   gap: 50px;
 }
-
+/* 
 .articles > div div:first-child {
   flex: 2;
-}
+} */
 
 .articles > div div:last-child {
   flex: 1;
